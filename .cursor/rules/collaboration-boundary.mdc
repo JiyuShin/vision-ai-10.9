@@ -1,0 +1,69 @@
+---
+description: 협업 파일 경계. 합의한 파일 밖은 수정 금지.
+alwaysApply: true
+---
+
+# 협업 파일 경계
+
+이 저장소는 친구와 나눠 작업한다. 아래 허용 목록에 없는 파일은 읽기만 하고 절대 수정하지 않는다.
+
+수정이 필요하면 그 파일을 사용자에게 먼저 말하고, 허락을 받기 전에는 쓰지 않는다. 관련되어 보여도, 고치기 쉬워도, import가 깨져도 예외가 아니다.
+
+## 이 계정이 만져도 되는 파일
+
+시선 추적·그 연결부, **모바일 전용 페이지**를 담당한다.
+
+### 모바일 (`/mobile`)
+
+- 작업 범위는 **`pages/mobile.jsx`** 와 **`src/mobile/**`** 만이다. 새 컴포넌트·스타일도 `src/mobile/` 아래에만 둔다.
+- 웹소켓·QR·키오스크(`EntryFlowContext`, `/1`·`/2`·`/3` 등) **연동은 아직 하지 않는다.** 연동 때문에 `_app.jsx`, `EntryFlowContext`, `f2`/`f3`, 다른 `pages/*.jsx` 를 “ついでに” 수정하지 않는다.
+- 모바일 UX만 필요할 때 전역 시선 커서를 끄려면 `_app.jsx` 등 **허용 목록 밖** 수정이 필요하므로, 사용자 허락 없이 하지 않는다.
+
+- `pages/mobile.jsx`
+- `src/mobile/**`
+
+### 시선·키오스크 연결부
+
+- `src/shared/gaze/**`
+- `src/calibration/**`
+- `src/shared/gazeConfig.js`
+- `src/shared/GazeReticle.jsx`
+- `src/shared/GazeReticle.module.css`
+- `src/shared/EntryFlowContext.jsx`
+- `src/shared/EntryPageShell.jsx`
+- `src/shared/EntryPageShell.module.css`
+- `src/f1/voteState.js`
+- `src/f1/VoteStep/**`
+- `pages/app.jsx`
+- `pages/_app.jsx`
+- `scripts/setup-assets.mjs`
+- `package.json`
+- `yarn.lock`
+- `next.config.js`
+- `.gitignore`
+- `README.md`
+- `styles/globals.css`
+
+## 절대 손대지 않는 것
+
+- `src/f2/**` — 토론 화면은 상대 영역
+- `src/f1/RevealStep/**` — 투표 다음 연출
+- `pages/1.jsx`, `pages/2.jsx` — 페이지 라우트 UI
+- 상대가 만든 피그마 UI, 카드 스타일, 카피, 레이아웃
+- 이번 요청에 이름이 안 나온 파일
+
+## 해야 할 일 / 하지 말 일
+
+```text
+// 금지: 허용 목록 밖을 “ついでに” 고침
+pages/1.jsx 의 문구를 시선 훅에 맞게 바꿈
+src/f2/DiscussionStep 에 gazeRef 를 직접 심음
+
+// 허용: 목록 안만 고치고, 밖이 필요하면 질문
+src/shared/gaze/useGazeEngine.js 만 수정
+pages/1.jsx 가 필요하면 “이 파일을 건드려도 되나?” 라고 물음
+
+// 모바일: src/mobile/ 만 확장. 다른 라우트·f2·f3 는 읽기만
+src/mobile/PlantCanvas.jsx 추가 OK
+EntryFlowContext 에 mobileSession 붙이기 → 먼저 허락 받기
+```
